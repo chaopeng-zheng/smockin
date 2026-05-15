@@ -12,35 +12,35 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.11</version>
+        <version>3.2.5</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
-        <spring-boot-test.version>2.7.11</spring-boot-test.version>
-        <spark-core.version>2.9.1</spark-core.version>
+        <java.version>21</java.version>
+        <spring-boot-test.version>3.2.5</spring-boot-test.version>
+        <spark-core.version>3.0.3</spark-core.version>
         <h2.version>2.3.232</h2.version>
-        <hikaricp.version>2.6.1</hikaricp.version>
-        <commons-lang3.version>3.5</commons-lang3.version>
-        <httpclient.version>4.5.13</httpclient.version>
+        <hikaricp.version>6.2.1</hikaricp.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <httpclient.version>4.5.14</httpclient.version>
         <commons-io.version>2.17.0</commons-io.version>
         <commons-email.version>1.5</commons-email.version>
-        <mockito-core.version>3.2.0</mockito-core.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <mockito-core.version>5.11.0</mockito-core.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <raml-parser.version>1.0.25</raml-parser.version>
-        <openapi-generator.version>5.1.0</openapi-generator.version>
+        <openapi-generator.version>7.5.0</openapi-generator.version>
         <jasypt.version>1.9.2</jasypt.version>
-        <java-jwt.version>3.4.0</java-jwt.version>
-        <spring-boot-maven-plugin.version>2.7.11</spring-boot-maven-plugin.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
+        <spring-boot-maven-plugin.version>3.2.5</spring-boot-maven-plugin.version>
         <owasp.plugin.version>5.3.0</owasp.plugin.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <s3mock.version>2.2.2</s3mock.version>
         <aws-java-sdk-s3.version>1.12.261</aws-java-sdk-s3.version>
-        <s3proxy.version>1.7.1</s3proxy.version>
-        <greenmail.version>1.6.5</greenmail.version>
-        <jackson-databind.version>2.14.2</jackson-databind.version>
+        <s3proxy.version>2.2.0</s3proxy.version>
+        <greenmail.version>2.1.2</greenmail.version>
+        <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <java-ngrok.version>2.1.0</java-ngrok.version>
     </properties>
 
@@ -70,16 +70,22 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
+        <!-- Nashorn JavaScript Engine (replacement for removed JDK Nashorn) -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.4</version>
+        </dependency>
+
         <!-- Jackson (JSON) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
         </dependency>
 
-        <!-- Spark (HTTP Server) -->
+        <!-- Spark (HTTP Server) - Jakarta EE compatible fork -->
         <dependency>
-            <groupId>com.sparkjava</groupId>
+            <groupId>org.zoomba-lang</groupId>
             <artifactId>spark-core</artifactId>
             <version>${spark-core.version}</version>
         </dependency>
@@ -188,6 +194,11 @@
             <artifactId>greenmail</artifactId>
             <version>${greenmail.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>${jakarta.mail.version}</version>
+        </dependency>
 
         <!-- ngrok -->
         <dependency>
@@ -250,6 +261,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <app.version>${project.version}</app.version>
+                    </systemPropertyVariables>
+                </configuration>
                 <!-- For hot loading during development  -->
                 <!--
                 <configuration>
