@@ -51,6 +51,12 @@
         <java-ngrok.version>2.1.0</java-ngrok.version>
         <spotbugs-annotations.version>4.9.0</spotbugs-annotations.version>
         
+        <!-- MQ Dependencies -->
+        <!-- Protocol-based MQ Support: JMS, AMQP, Kafka -->
+        <rabbitmq.version>5.20.0</rabbitmq.version>
+        <ibm-mq.version>9.3.3.0</ibm-mq.version>
+        <solace-jms.version>10.20.0</solace-jms.version>
+        
         <!-- Plugin versions -->
         <spotbugs.plugin.version>4.8.6.6</spotbugs.plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -263,7 +269,88 @@
             </exclusions>
         </dependency>
 
+        <!-- MQ Dependencies - Protocol-based Support: JMS, AMQP, Kafka -->
+        
+        <!-- AMQP Client for RabbitMQ -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>${rabbitmq.version}</version>
+        </dependency>
+        
+        <!-- IBM MQ Client (JMS Provider) -->
+        <!-- Note: For Jakarta EE compatibility (Spring Boot 3.x), use IBM MQ 9.4+ Jakarta client -->
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>com.ibm.mq.allclient</artifactId>
+            <version>${ibm-mq.version}</version>
+        </dependency>
+        
+        <!-- Spring JMS Support (for ActiveMQ, IBM MQ, Solace JMS) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-artemis</artifactId>
+        </dependency>
+        
+        <!-- Solace JMS Client - DISABLED by default 
+             To enable Solace support:
+             1. Uncomment the dependency below
+             2. Download sol-jms from Solace Developer Portal (https://solace.com/downloads/)
+             3. Install to local Maven repository:
+                mvn install:install-file -Dfile=sol-jms-10.20.0.jar -DgroupId=com.solace.pubsub -DartifactId=sol-jms -Dversion=10.20.0 -Dpackaging=jar
+        <dependency>
+            <groupId>com.solace.pubsub</groupId>
+            <artifactId>sol-jms</artifactId>
+            <version>${solace-jms.version}</version>
+        </dependency>
+        -->
+        
+        <!-- Spring Kafka Support (version managed by Spring Boot parent) -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        
+        <!-- Embedded Kafka for Testing -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- Embedded RabbitMQ for Testing -->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Monitoring: Micrometer and Prometheus Support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
     </dependencies>
+
+    <!-- Maven Repositories for Solace and other dependencies -->
+    <repositories>
+        <!-- Solace PubSub+ Maven Repository -->
+        <repository>
+            <id>SolacePubSubSoftwareRepository</id>
+            <url>https://maven.solace.com/artifactory/pubsubplus-client/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
