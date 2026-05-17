@@ -62,6 +62,11 @@ public class MockedMQServerEngine {
         logger.debug("start called");
 
         synchronized (serverStateMonitor) {
+            // Check if engine is already running
+            if (serverState.isRunning()) {
+                throw new MockServerException("MQ Mock Engine is already running");
+            }
+
             try {
                 clearAllConnections();
 

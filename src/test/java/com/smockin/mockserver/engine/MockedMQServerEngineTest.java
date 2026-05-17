@@ -112,21 +112,13 @@ public class MockedMQServerEngineTest {
         Assert.assertEquals(0, state.getPort());
     }
 
-    @Test
-    public void test_StartEngineTwiceResetsState() throws MockServerException {
+    @Test(expected = MockServerException.class)
+    public void test_StartEngineTwice() throws MockServerException {
         // Given engine is already started
         engine.start(configDTO, new ArrayList<>());
-        Assert.assertTrue(engine.getCurrentState().isRunning());
 
-        // When starting again - should reset state without exception
-        MockedServerConfigDTO newConfig = new MockedServerConfigDTO();
-        newConfig.setPort(9090);
-        engine.start(newConfig, new ArrayList<>());
-
-        // Then engine should still be running with new port
-        MockServerState state = engine.getCurrentState();
-        Assert.assertTrue(state.isRunning());
-        Assert.assertEquals(9090, state.getPort());
+        // When starting again - should throw exception
+        engine.start(configDTO, new ArrayList<>());
     }
 
     @Test
