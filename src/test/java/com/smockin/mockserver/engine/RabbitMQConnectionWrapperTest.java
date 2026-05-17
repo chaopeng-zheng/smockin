@@ -51,7 +51,7 @@ public class RabbitMQConnectionWrapperTest {
 
         RabbitMQConnectionWrapper wrapper = new RabbitMQConnectionWrapper(testMQMock);
         Assert.assertNotNull("Wrapper should be created", wrapper);
-        Assert.assertEquals("AMQP", wrapper.getConnectionType());
+        Assert.assertEquals("RABBITMQ", wrapper.getConnectionType());
     }
 
     @Test
