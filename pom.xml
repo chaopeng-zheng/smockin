@@ -12,36 +12,41 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.13</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>21</java.version>
-        <spring-boot-test.version>3.2.5</spring-boot-test.version>
+        <spring-boot.version>3.4.13</spring-boot.version>
+        <spring-boot-test.version>3.4.13</spring-boot-test.version>
         <spark-core.version>3.0.3</spark-core.version>
         <h2.version>2.3.232</h2.version>
         <hikaricp.version>6.2.1</hikaricp.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <commons-io.version>2.17.0</commons-io.version>
+        <commons-io.version>2.18.0</commons-io.version>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-email.version>1.5</commons-email.version>
-        <mockito-core.version>5.11.0</mockito-core.version>
+        <mockito-core.version>5.15.2</mockito-core.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <raml-parser.version>1.0.25</raml-parser.version>
-        <openapi-generator.version>7.5.0</openapi-generator.version>
+        <openapi-generator.version>7.12.0</openapi-generator.version>
         <jasypt.version>1.9.2</jasypt.version>
         <java-jwt.version>4.4.0</java-jwt.version>
-        <spring-boot-maven-plugin.version>3.2.5</spring-boot-maven-plugin.version>
-        <owasp.plugin.version>5.3.0</owasp.plugin.version>
-        <lombok.version>1.18.32</lombok.version>
-        <s3mock.version>2.2.2</s3mock.version>
-        <aws-java-sdk-s3.version>1.12.261</aws-java-sdk-s3.version>
-        <s3proxy.version>2.2.0</s3proxy.version>
+        <spring-boot-maven-plugin.version>3.4.13</spring-boot-maven-plugin.version>
+        <owasp.plugin.version>11.1.1</owasp.plugin.version>
+        <lombok.version>1.18.36</lombok.version>
+        <s3mock.version>3.1.2</s3mock.version>
+        <aws-java-sdk-s3.version>1.12.779</aws-java-sdk-s3.version>
+        <s3proxy.version>2.7.0</s3proxy.version>
         <greenmail.version>2.1.2</greenmail.version>
-        <jakarta.mail.version>2.0.1</jakarta.mail.version>
+        <jakarta.mail.version>2.1.3</jakarta.mail.version>
+        <guava.version>33.4.0-jre</guava.version>
         <java-ngrok.version>2.1.0</java-ngrok.version>
+        <spotbugs.plugin.version>4.8.6.6</spotbugs.plugin.version>
+        <spotbugs-annotations.version>4.9.0</spotbugs-annotations.version>
     </properties>
 
     <dependencies>
@@ -77,10 +82,18 @@
             <version>15.4</version>
         </dependency>
 
-        <!-- Jackson (JSON) -->
+        <!-- Jackson (JSON) - Override Spring Boot managed version for security fixes -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
         </dependency>
 
         <!-- Spark (HTTP Server) - Jakarta EE compatible fork -->
@@ -170,6 +183,14 @@
             <version>${java-jwt.version}</version>
         </dependency>
 
+        <!-- SpotBugs Annotations (for suppressing false positives) -->
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>${spotbugs-annotations.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- S3 Mock -->
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -195,9 +216,9 @@
             <version>${greenmail.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
-            <version>${jakarta.mail.version}</version>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>2.0.3</version>
         </dependency>
 
         <!-- ngrok -->
@@ -205,6 +226,13 @@
             <groupId>com.github.alexdlaird</groupId>
             <artifactId>java-ngrok</artifactId>
             <version>${java-ngrok.version}</version>
+        </dependency>
+
+        <!-- Guava - Override for security fix CVE-2023-2976 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- Testing Related -->
@@ -307,6 +335,20 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- SpotBugs (FindBugs successor) for static code analysis -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Medium</threshold>
+                    <failOnError>true</failOnError>
+                    <xmlOutput>true</xmlOutput>
+                    <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -320,8 +362,32 @@
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
                         <version>${owasp.plugin.version}</version>
+                        <configuration>
+                            <failBuildOnCVSS>7</failBuildOnCVSS>
+                            <suppressionFile>${project.basedir}/dependency-check-suppressions.xml</suppressionFile>
+                        </configuration>
                         <executions>
                             <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>spotbugs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>

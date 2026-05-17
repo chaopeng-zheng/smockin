@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "REST_MOCK_JS_HANDLER")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMockJavaScriptHandler extends Identifier {
 
     @OneToOne(fetch = FetchType.LAZY)

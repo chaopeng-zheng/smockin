@@ -187,7 +187,7 @@ public class RamlApiImportServiceImpl implements ApiImportService {
 
             m.responses().stream().forEach(resp -> {
 
-                final int statusCode = Integer.valueOf(resp.code().value());
+                final int statusCode = Integer.parseInt(resp.code().value());
                 debug("HTTP Response Status Code: " + statusCode); // HTTP response code
 
                 // Accounts for response codes which will not have a body such as 204.
@@ -279,7 +279,10 @@ public class RamlApiImportServiceImpl implements ApiImportService {
                 GeneralUtils.unpackArchive(uploadedFile.getAbsolutePath(), parent);
 
                 // Delete uploaded zip file
-                uploadedFile.delete();
+                boolean deleted = uploadedFile.delete();
+                if (!deleted) {
+                    logger.warn("Failed to delete uploaded zip file: {}", uploadedFile.getAbsolutePath());
+                }
 
                 return Files.find(Paths.get(parent), 5, (path, attr)
                         -> path.getFileName().toString().toLowerCase().indexOf(".raml") > -1)

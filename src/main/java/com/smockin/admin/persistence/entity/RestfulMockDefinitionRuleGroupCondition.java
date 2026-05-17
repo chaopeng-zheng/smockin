@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "REST_MOCK_RULE_GRP_COND")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMockDefinitionRuleGroupCondition extends Identifier {
 
     @ManyToOne(fetch = FetchType.LAZY)

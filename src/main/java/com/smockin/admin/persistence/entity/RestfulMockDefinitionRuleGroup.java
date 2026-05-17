@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "REST_MOCK_RULE_GRP")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMockDefinitionRuleGroup extends Identifier {
 
     @ManyToOne(fetch = FetchType.LAZY)

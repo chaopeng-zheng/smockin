@@ -12,6 +12,7 @@ import jakarta.persistence.*;
         @UniqueConstraint(columnNames = {"USER_KEY", "CREATED_BY"})
 })
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class UserKeyValueData extends Identifier {
 
     @Column(name = "USER_KEY", nullable = false, length = 50)

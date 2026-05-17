@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "PROXY_FORWARD_USER_CONFIG")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class ProxyForwardUserConfig extends Identifier {
 
     @ManyToOne(fetch = FetchType.LAZY)

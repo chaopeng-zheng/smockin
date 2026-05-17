@@ -14,6 +14,7 @@ import jakarta.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@lombok.EqualsAndHashCode(callSuper = true)
 public class MailMockMessageAttachmentContent extends Identifier {
 
     @OneToOne(fetch = FetchType.LAZY)

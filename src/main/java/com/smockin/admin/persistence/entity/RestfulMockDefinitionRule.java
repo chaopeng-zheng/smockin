@@ -15,6 +15,7 @@ import java.util.Map;
 @Entity
 @Table(name = "REST_MOCK_RULE")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMockDefinitionRule extends Identifier {
 
     @ManyToOne(fetch = FetchType.LAZY)

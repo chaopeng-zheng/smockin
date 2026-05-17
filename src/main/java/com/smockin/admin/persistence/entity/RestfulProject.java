@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "REST_PROJ")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulProject extends Identifier {
 
     @Column(name="NAME", length = 100, nullable = false, unique = true)

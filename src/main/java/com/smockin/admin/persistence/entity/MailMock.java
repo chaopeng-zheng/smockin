@@ -15,6 +15,7 @@ import java.util.List;
 @Table(name = "MAIL_MOCK")
 @Data
 @NoArgsConstructor
+@lombok.EqualsAndHashCode(callSuper = true)
 public class MailMock extends Identifier {
 
     @Column(name = "ADDRESS", nullable = false, length = 120, unique = true)

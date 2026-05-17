@@ -17,6 +17,7 @@ import java.util.List;
     @UniqueConstraint(columnNames = {"PATH", "HTTP_METHOD", "CREATED_BY"})
 })
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMock extends Identifier {
 
     @Column(name = "PATH", nullable = false, length = 1000)

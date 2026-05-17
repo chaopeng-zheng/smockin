@@ -12,6 +12,7 @@ import java.util.Map;
 @Entity
 @Table(name = "REST_MOCK_DEF")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMockDefinitionOrder extends Identifier {
 
     @ManyToOne(fetch = FetchType.LAZY)

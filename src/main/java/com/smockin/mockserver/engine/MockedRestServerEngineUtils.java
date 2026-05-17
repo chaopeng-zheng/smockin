@@ -18,7 +18,6 @@ import com.smockin.mockserver.exception.InboundParamMatchException;
 import com.smockin.mockserver.service.*;
 import com.smockin.mockserver.service.dto.RestfulResponseDTO;
 import com.smockin.utils.GeneralUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +31,7 @@ import spark.Response;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
@@ -327,7 +327,7 @@ public class MockedRestServerEngineUtils {
 
         String host = StringUtils.remove(proxyDownstreamURL, HttpClientService.HTTPS_PROTOCOL);
         host = StringUtils.remove(host, HttpClientService.HTTP_PROTOCOL);
-        host = StringUtils.removeAll(host, GeneralUtils.URL_PATH_SEPARATOR);
+        host = StringUtils.replace(host, GeneralUtils.URL_PATH_SEPARATOR, "");
 
         return host;
     }
@@ -476,7 +476,7 @@ public class MockedRestServerEngineUtils {
         long max = (mock.getRandomiseLatencyRangeMaxMillis() > 0) ? mock.getRandomiseLatencyRangeMaxMillis() : 5000;
 
         try {
-            Thread.sleep(RandomUtils.nextLong(min, (max + 1)));
+            Thread.sleep(ThreadLocalRandom.current().nextLong(min, (max + 1)));
         } catch (InterruptedException ex) {
             logger.error("Failed to apply randomised latency and prolong current thread execution", ex);
         }

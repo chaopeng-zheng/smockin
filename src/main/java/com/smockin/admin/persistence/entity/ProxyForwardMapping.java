@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "PROXY_FORWARD_MAPPING")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class ProxyForwardMapping extends Identifier {
 
     @ManyToOne

@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "REST_MOCK_STATEFUL_META")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class RestfulMockStatefulMeta extends Identifier {
 
     @OneToOne(fetch = FetchType.LAZY)

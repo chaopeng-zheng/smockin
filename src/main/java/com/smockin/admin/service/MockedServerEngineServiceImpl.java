@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -594,7 +595,7 @@ public class MockedServerEngineServiceImpl implements MockedServerEngineService 
         final String exportContent =
             GeneralUtils.serialiseJson(dtos);
 
-        final byte[] exportBytes = exportContent.getBytes();
+        final byte[] exportBytes = exportContent.getBytes(StandardCharsets.UTF_8);
 
         return Optional.of(GeneralUtils.base64Encode(exportBytes));
     }

@@ -14,6 +14,7 @@ import java.util.Map;
 @Entity
 @Table(name = "SERVER_CONFIG")
 @Data
+@lombok.EqualsAndHashCode(callSuper = true)
 public class ServerConfig extends Identifier {
 
     @Enumerated(EnumType.STRING)
