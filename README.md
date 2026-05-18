@@ -3,34 +3,20 @@
 </p>
 
 <p align="center">
-<<<<<<< HEAD
-  version 2.20.3
-=======
   version 2.21.0
->>>>>>> 9e89847 (Update README.md: Add MQ Mock documentation for Kafka, RabbitMQ, ActiveMQ, IBM MQ, and Solace support)
 </p>
 
 <br />
 
 
 
-<<<<<<< HEAD
-### NEW! in version 2.20.3
-
-- Dependency updates
-- We will be looking to update this project to run on a later version of (JDK 21+)
-
-
-**Note, 2.3.232 IS NOT compatible with previous versions of H2** you should therefore use the various exporters to save all of your previous data before moving to this version of sMockin.
-=======
 ### NEW! in version 2.21.0
 
 - **MQ Mock Server** - Full support for Apache Kafka, RabbitMQ, ActiveMQ, IBM MQ, and Solace.
 - Protocol-based architecture: JMS (ActiveMQ, IBM MQ, Solace), AMQP (RabbitMQ), Kafka Protocol
 - Transparent message interception - your applications connect using original protocols, sMockin automatically captures and stores messages.
 - Connection pooling and health monitoring for production environments.
-- **Note**: Version upgraded to Spring Boot 3.4.13 + Java 21 for enhanced performance and Jakarta EE support.
->>>>>>> 9e89847 (Update README.md: Add MQ Mock documentation for Kafka, RabbitMQ, ActiveMQ, IBM MQ, and Solace support)
+- Spring Boot 3.4.13 + Java 21 for Jakarta EE support.
 
 
 <br />
